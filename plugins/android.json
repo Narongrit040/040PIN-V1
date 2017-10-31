@@ -15,6 +15,10 @@
     },
     "cordova-plugin-camera": {
       "PACKAGE_NAME": "com.example.psupin"
+    },
+    "cordova-plugin-googlemaps": {
+      "API_KEY_FOR_ANDROID": "AIzaSyDGzULKJZDHUFYin7q5jRimK8uuE9Ag90I",
+      "PACKAGE_NAME": "com.example.psupin"
     }
   },
   "dependent_plugins": {}

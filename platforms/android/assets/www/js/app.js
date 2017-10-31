@@ -242,3 +242,14 @@ function loginWithEmail(){
     event.parentNode.classList.remove("unread");
     event.parentNode.classList.add("read");
   }
+
+  var provider = new firebase.auth.FacebookAuthProvider();
+  function loginFacebook(){
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+      console.log(result);
+      //Do something when login complete
+    }).catch(function(error) {
+      //Do something when error
+      console.log(error);
+    });
+}

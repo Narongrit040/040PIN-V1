@@ -25,7 +25,7 @@
     <feature name="Camera">
         <param name="ios-package" value="CDVCamera" />
     </feature>
-    <name>040pin</name>
+    <name>psupin</name>
     <icon src="res/icon.png" />
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
