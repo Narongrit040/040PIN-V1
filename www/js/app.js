@@ -85,44 +85,26 @@ function handSignUp(){
     
     //login with facebook
     
-
-function loginWithEmail(){
-    var email = document.getElementById('Email').value;
-    var password = document.getElementById('Password').value;
-    var credential = firebase.auth.EmailAuthProvider.credential(email, password);
-               //login with email
-
-
-              firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-               
-        if(errorCode == 'auth/weak-password'){ //this condition not working
-            alert("The password is too weak");
-          }else {
-            alert(errorMessage);
-            
-        }
-        console.log(error);
-      });
+    function loginWithEmail(){
+      var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+      var credential = firebase.auth.EmailAuthProvider.credential(email, password);
     
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          // User is signed in.
-          var isAnonymous = user.isAnonymous;
-          var uid = user.uid;
-          alert(isAnonymous);
-          alert(uid);
-          // ...
-        } else {
-          // User is signed out.
-          alert("By!!")
-          // ...
-        }
+      firebase.auth().signInWithEmailAndPassword(email, password).then(function(user){alert('welcome '+email);}).catch(function(error) {
+        // Handle Errors here.
+    
+        var errorCode = error.code;
+        var errorMessage = error.message;
+    
+        if(errorCode == 'auth/weak-password'){
+          alert('Account not found.');
+      }else {
+          alert(errorMessage);
+      }
         // ...
       });
-}
+    }
+    
     ////--------$(function () {
 
     firebase.initializeApp({
