@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  <script src="js/index.js"></script>
 <script src="js/app.js"></script>
-
+<script src="js/onsenui.js"></script>
  <link rel="stylesheet" type="text/css" href="css/index.css">
  <link rel="stylesheet" href="css/onsenui.css">
  <link rel="stylesheet" href="css/onsen-css-components.min.css">
@@ -149,22 +149,20 @@
             <ons-page >
               <ons-list>
                 <ons-list-item onclick="fn.load('home.html')" tappable>
-                  Home
+               
+                  <p>Home</p>
                 </ons-list-item>
-                <ons-list-item onclick="fn.load('login.html')" tappable>
-                  Login
-                 </ons-list-item>
-                <ons-list-item onclick="fn.load('register.html')" tappable>
-                 Register
-                </ons-list-item>
-
                 <ons-list-item onclick="fn.load('Contact.html')" tappable>
-                Contact
+            
+                <p>Contact</p>
                 </ons-list-item>
                 <ons-list-item onclick="fn.load('about.html')" tappable>
-                  About
+                  <p>About</p>
                 </ons-list-item>
-
+                <ons-list-item  id="fnlogIn" name="login" onclick="fn.load('login.html')" tappable>
+              <p id="txtlogIn">Login</p>
+             
+                 </ons-list-item>
 
               </ons-list>
             </ons-page>
@@ -207,7 +205,7 @@
       <template id="Contact.html">
   <ons-page  >
     <ons-toolbar>
-    <div class="left"><ons-back-button onclick="goBack()">Back</ons-back-button></div>
+    <div class="left">   <ons-back-button onclick="fn.load('home.html')">Back</ons-back-button></div>
       <div class="right">
    
         <ons-toolbar-button onclick="fn.open()">
@@ -286,7 +284,9 @@
 <template id="about.html">
   <ons-page  >
     <ons-toolbar>
-    <div class="left"><ons-back-button onclick="goBack()">Back</ons-back-button></div>
+      <div class="left">
+        <ons-back-button onclick="fn.load('home.html')">Back</ons-back-button>
+      </div>
     
       <div class="right">
  
@@ -354,7 +354,7 @@
           
               <div style="text-align: center; position: relative;" ondblclick="like(1)"><br>
              <img src="http://radiatedaily.com/wp-content/uploads/2016/12/Green-Wallpaper-29.jpg" alt="" width="80%">
-                <img class="post-image" src="{{photo}}">
+                <img class="post-image" src="">
               </div>
           
               <ons-list-item class="post-button-bar" modifier="nodivider">
@@ -509,7 +509,7 @@
         <template id="login.html">
           <ons-page id="login">
               <ons-toolbar>
-                  <div class="left"><ons-back-button onclick="goBack()">Back</ons-back-button></div>
+                  <div class="left">   <ons-back-button onclick="fn.load('home.html')">Back</ons-back-button></div>
                   
                     <div class="right">
                
@@ -525,10 +525,10 @@
          <div align="center">
         <br>
          <p>
-            <ons-input id="username" modifier="underbar" placeholder="Username" float></ons-input>
+            <ons-input id="txtEmail" modifier="underbar" placeholder="Email" float></ons-input>
           </p>
           <p >
-            <ons-input id="password" modifier="underbar" type="password" placeholder="Password" float></ons-input>
+            <ons-input id="txtPassword" modifier="underbar" type="password" placeholder="Password" float></ons-input>
             </p>
          </div>
 
@@ -542,8 +542,8 @@
 
       
          
-          <p style="margin-top: 30px;" align="center">
-            <button class="btn btn-info"  onclick="loginWithEmail()"></button>
+          <p style="margin-top: 30px;" align="center"></p>
+            <button class="btn btn-info"  onclick="loginWithEmail()" >login</button>
      
           </p>
 
@@ -556,6 +556,10 @@
 <button class="loginBtn loginBtn--google">
   Login with Google&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
 </button>
+<br><br>
+<ons-button onclick="fn.load('register.html')" tappable>
+  Register
+ </ons-button >
 
         </div>
           </ons-page>
@@ -568,7 +572,7 @@
         <template id="register.html">
           <ons-page  >
             <ons-toolbar>
-            <div class="left"><ons-back-button onclick="goBack()">Back</ons-back-button></div>
+            <div class="left">   <ons-back-button onclick="fn.load('home.html')">Back</ons-back-button></div>
             
               <div class="right">
          
@@ -598,13 +602,54 @@
           </ons-page>
         </template>
 
+        <template id="information.html">
+          <ons-page  >
+            <ons-toolbar>
+            <div class="left">   <ons-back-button onclick="fn.load('home.html')">Back</ons-back-button></div>
+            
+              <div class="right">
+         
+                <ons-toolbar-button onclick="fn.open()">
+                  <ons-icon icon="md-menu"></ons-icon>
+                </ons-toolbar-button>
+              </div>
+              <div class="center">
+               Information
+              </div>
+            </ons-toolbar>
+            <div align="center">
+              <br>
+             DisplayName
+              <ons-input  type="text" id="getDisplayName"></ons-input>
+             <br>
+            
+             Email
+             <ons-input type="email" id="getEmail"></ons-input>
+              <br>  <br>
+              <ons-button id="btnUpdate" onclick="updateAcc()">Update</ons-button>
+              <br>  <br>
+          <ons-button onclick="acclogOut()">LogOut
+
+          </ons-button>
+          <ons-button id="btnDelete" onclick="btnDelete()" style="background-color:#E74B37;">Delete Account</ons-button>
+              
+               
+
+
+
+
+              </div>
+        
+          </ons-page>
+        </template>
+
 
 
   <!-- ตาราง -->
   <template id="test.html">
   <ons-page  >
     <ons-toolbar>
-    <div class="left"><ons-back-button onclick="goBack()">Back</ons-back-button></div>
+    <div class="left">   <ons-back-button onclick="fn.load('home.html')">Back</ons-back-button></div>
     
       <div class="right">
  

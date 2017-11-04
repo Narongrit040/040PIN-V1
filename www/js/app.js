@@ -1,5 +1,5 @@
 
-///geolocation plugIn/camera
+
 ons.ready(function() {
     // deviceready event is fired
     // Call whatever Cordova APIs
@@ -85,25 +85,7 @@ function handSignUp(){
     
     //login with facebook
     
-    function loginWithEmail(){
-      var email = document.getElementById('email').value;
-    var password = document.getElementById('password').value;
-      var credential = firebase.auth.EmailAuthProvider.credential(email, password);
-    
-      firebase.auth().signInWithEmailAndPassword(email, password).then(function(user){alert('welcome '+email);}).catch(function(error) {
-        // Handle Errors here.
-    
-        var errorCode = error.code;
-        var errorMessage = error.message;
-    
-        if(errorCode == 'auth/weak-password'){
-          alert('Account not found.');
-      }else {
-          alert(errorMessage);
-      }
-        // ...
-      });
-    }
+  
     
     ////--------$(function () {
 
@@ -225,6 +207,8 @@ function handSignUp(){
     event.parentNode.classList.add("read");
   }
 
+
+  
   var provider = new firebase.auth.FacebookAuthProvider();
   function loginFacebook(){
     firebase.auth().signInWithPopup(provider).then(function(result) {
@@ -235,3 +219,145 @@ function handSignUp(){
       console.log(error);
     });
 }
+
+
+function loginWithEmail(){
+  
+  
+  var email = document.getElementById('txtEmail').value;
+  var password = document.getElementById('txtPassword').value;
+  var credential = firebase.auth.EmailAuthProvider.credential(email, password);
+  
+  firebase.auth().signInWithEmailAndPassword(email, password).then(function(user){alert('welcome '+email);
+
+  fn.load('information.html');
+}).catch(function(error) {
+  // Handle Errors here.
+  
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  
+  if(errorCode == 'auth/weak-password'){
+    alert('Account not found.');
+  }else {
+    alert(errorMessage);
+  }
+  // ...
+  });
+  firebase.auth().onAuthStateChanged(function(user) {
+      // document.getElementById('quickstat-verify-email').disabled = true;
+      if (user) {
+        var txtloginDiv = document.getElementById('txtlogIn').textContent  = 'Information';
+        var fnloginDiv = document.getElementById('fnlogIn').setAttribute( "onClick", "fn.load('information.html')" );
+        // User is signed in.
+        var displayName = user.displayName;
+        var email = user.email;
+        var emailVerified = user.emailVerified;
+        var photoURL = user.photoURL;
+        var isAnonymous = user.isAnonymous;
+        var uid = user.uid;
+        var providerData = user.providerData;
+  
+        // var displayName = document.getElementById("displayName").value;
+        // var email = document.getElementById("email").value;
+        // var emailVerified = document.getElementById("emailVerified").value;
+        // var photoURL = document.getElementById("photoURL").value;
+        // var isAnonymous = document.getElementById("isAnonymous").value;
+        // var uid = document.getElementById("uid").value;
+        // var providerData = document.getElementById("providerData").value;
+  
+        document.getElementById("getDisplayName").value = displayName;
+        document.getElementById("getEmail").value = email;
+        document.getElementById("getEmailVerified").value = emailVerified;
+        document.getElementById("getPhotoURL").value = photoURL;
+        document.getElementById("getIsAnonymous").value = isAnonymous;
+        document.getElementById("getUid").value = uid;
+        document.getElementById("getProviderData").value = providerData;
+  
+        document.getElementById('displayName').innerHTML = displayName;
+        document.getElementById("email").innerHTML = email;
+          document.getElementById('emailVerified').innerHTML = emailVerified;
+          document.getElementById('photoURL').innerHTML = photoURL;
+          document.getElementById('isAnonymous').innerHTML = isAnonymous;
+          document.getElementById('uid').innerHTML = uid;
+          document.getElementById('providerData').innerHTML = providerData;
+      // document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
+      // document.getElementById('btnLogin').textContent = 'Sign out';
+      // document.getElementById('quickstart-account-details').textContent = json.stringify(user,null, '');
+  //         if(!emailVerified){
+  // // document.getElementById('quickstart-verify-email').disabled = false;
+  
+  //         }
+    
+        // ...
+  
+      } else {
+     
+        // document.getElementById('displayName').innerHTML = "Unknow";
+        //   document.getElementById('email').innerHTML ="Unknow";
+        //   document.getElementById('emailVerified').innerHTML = "Unknow";
+        //   document.getElementById('photoURL').innerHTML ="Unknow" ;
+        //   document.getElementById('isAnonymous').innerHTML = "Unknow";
+        //   document.getElementById('uid').innerHTML = "Unknow";
+        //   document.getElementById('providerData').innerHTML = "Unknow";
+        // User is signed out.
+        // ...
+      //   document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
+      //   document.getElementById('btnLogin').textContent = 'Sign in';
+      //   document.getElementById('quickstart-account-details').textContent = 'null';
+      }
+      // document.getElementById('quickstart-sign-in').disabled = false;
+  
+    });
+  }
+  function acclogOut(){
+    firebase.auth().signOut().then(function() {
+      // Sign-out successful.
+      alert("Logout successful.");
+      fn.load('home.html');
+    }).catch(function(error) {
+      // An error happened.
+      // alert("An error happened.");
+    });
+    var txtloginDiv = document.getElementById('txtlogIn').textContent  = 'Login';
+    var fnloginDiv = document.getElementById('fnlogIn').setAttribute( "onClick", "fn.load('login.html')" );
+   
+  }
+
+
+  function updateAcc(){
+    var inputDisplayName = document.getElementById('getDisplayName').value;
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        user.updateProfile({
+            displayName: inputDisplayName
+        }).then(function() {
+            // Update successful.
+            alert("Update successful.");
+        }, function(error) {
+            // An error happened.
+            alert("An error happened.");
+        });
+    
+      } else {
+        // No user is signed in.
+        alert("No user is signed in.");
+      }
+    });
+  }
+  
+  
+function btnDelete(){
+  
+    var user = firebase.auth().currentUser;
+    
+    user.delete().then(function() {
+      // User deleted.
+      alert("User deleted.");
+    }).catch(function(error) {
+      // An error happened.
+      alert("An error happened.");
+    });
+  }
+  
