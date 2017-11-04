@@ -11,9 +11,9 @@ Plug-in
 
 CRUD
 
--Firebase *register with email and facebook
+-Firebase *register with email and facebook, login,logout,update displayname,delete account,post
 
 Other
-
+Post
 GG map API
 
