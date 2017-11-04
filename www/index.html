@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
- <script src="js/index.js"></script>
 <script src="js/app.js"></script>
 <script src="js/onsenui.js"></script>
  <link rel="stylesheet" type="text/css" href="css/index.css">
@@ -12,6 +11,9 @@
  <link rel="stylesheet" href="css/onsen-css-components.min.css">
  <script src="js/onsenui.min.js"></script>
  <script src="js/jquery-3.2.1.min.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase-firestore.js"></script>
+ <script src="js/addData.js"></script>
 
   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.js"></script>
@@ -27,7 +29,9 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <style>
+
+ 
+ <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
        #map {
@@ -304,69 +308,32 @@
 
 <template id="time.html">
   <ons-page id="time" style="width: 100%;">
-    <div id="pins">
-
-
+    <div id="pins"><br>
+     5830213040 function post pin,login with email and fb , update displayname, delete Account
        
       <center><table class="table" style="width:100%;">
     
-        <tr style="width:100%;">
-          <td style="width:100%;">
-              <ons-card class="post">
-                  <ons-list-item class="post_title">
-                    <div class="left">
-                      <img class="list-item__thumbnail" src="https://avatars3.githubusercontent.com/u/23075586?s=40&u=dace7930650f620c08a876f39b6957aeb9a823e7&v=4" >
-                    </div>
-                    <div class="center">
-                      <div class="list-item__title"><b>Narongrit Bunsaman</b></div>
-                      <div class="list-item__subtitle" style="font-size: 12px">1 HOUR AGO</div>
-                    </div>
-                  </ons-list-item>
-              
-                  <div style="text-align: center; position: relative;" ondblclick="like(1)"><br>
-                 <img src="https://static.pexels.com/photos/212324/pexels-photo-212324.jpeg" alt="" width="80%">
-                    <img class="post-image" src="{{photo}}">
-                  </div>
-              
-                  <ons-list-item class="post-button-bar" modifier="nodivider">
-                    <div class="center" style="padding-top: 0px">
-                      <ons-button class="post-button" modifier="quiet" onclick="like(1)"><ons-icon id="button-post-like-1" icon="fa-thumbs-o-up"></ons-icon> 99 Like</ons-button>        
-                    </div>
-                  </ons-list-item>
-                  <div class="post-caption"><b>Relaxy</b> <br>So so</div>
-                </ons-card>
-          </td>
-        </tr>
-        <tr style="width:100%;">
-            <td style="width:100%;">
-        
+          <div class="clouddata" style="margin-top:30px;">
+              <table class="table">
+                      <!-- <thead>
+                        <tr>
+                          <!-- <th>#</th> -->
+                          <!-- <th>post_user</th><br>
+                          <th>post_img</th><br>
+                          <th>post_subject</th><br>
+                
+                          
+                        </tr>
+                      </thead> --> 
+                      <tbody id="tablebody">
+                         
+                      </tbody>
+                    </table>        
+      </div>
+  </div>
 
-          <ons-card class="post">
-              <ons-list-item class="post_title">
-                <div class="left">
-                  <img class="list-item__thumbnail" src="https://avatars3.githubusercontent.com/u/23075586?s=40&u=dace7930650f620c08a876f39b6957aeb9a823e7&v=4" >
-                </div>
-                <div class="center">
-                  <div class="list-item__title"><b>Narongrit Bunsaman</b></div>
-                  <div class="list-item__subtitle" style="font-size: 12px">1 HOUR AGO</div>
-                </div>
-              </ons-list-item>
-          
-              <div style="text-align: center; position: relative;" ondblclick="like(1)"><br>
-             <img src="http://radiatedaily.com/wp-content/uploads/2016/12/Green-Wallpaper-29.jpg" alt="" width="80%">
-                <img class="post-image" src="">
-              </div>
-          
-              <ons-list-item class="post-button-bar" modifier="nodivider">
-                <div class="center" style="padding-top: 0px">
-                  <ons-button class="post-button" modifier="quiet" onclick="like(1)"><ons-icon id="button-post-like-1" icon="fa-thumbs-o-up"></ons-icon> 99 Like</ons-button>        
-                </div>
-              </ons-list-item>
-              <div class="post-caption"><b>Relaxy</b> <br>So so</div>
-            </ons-card>
-          </td>
-        </tr>
-      </table></center></div>
+
+     </center></div>
       
 
     </div>
@@ -446,8 +413,9 @@
                 <img src="" style="width:100%" id="preview">
                 <div id="map"></div>
                 <script>
-                    
+                    var pos;
                       var map, infoWindow;
+                      
                       function initMap() {
                         map = new google.maps.Map(document.getElementById('map'), {
                           center: {lat: -34.397, lng: 150.644},
@@ -457,23 +425,30 @@
                 
                         // Try HTML5 geolocation.
                         if (navigator.geolocation) {
+                          
+                        
                           navigator.geolocation.getCurrentPosition(function(position) {
                             var pos = {
                               lat: position.coords.latitude,
                               lng: position.coords.longitude
                             };
-                
+                            document.getElementById("post_location").value ="lat:"+position.coords.latitude+","+"lng:"+position.coords.longitude;
+                         
+                     
                             infoWindow.setPosition(pos);
                             infoWindow.setContent('Location found.');
                             infoWindow.open(map);
                             map.setCenter(pos);
+                         
                           }, function() {
                             handleLocationError(true, infoWindow, map.getCenter());
                           });
+                         
                         } else {
                           // Browser doesn't support Geolocation
                           handleLocationError(false, infoWindow, map.getCenter());
                         }
+                       
                       }
                 
                       function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -483,16 +458,20 @@
                                               'Error: Your browser doesn\'t support geolocation.');
                         infoWindow.open(map);
                       }
+                      // document.getElementById("post_location").value = pos;
                     </script>
                     <script async defer
                     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGzULKJZDHUFYin7q5jRimK8uuE9Ag90I&callback=initMap">
                     </script>
                 <center>
-
-                 
+                  
+                  <ons-input id="post_location" type="hidden" placeholder="location"></ons-input> <br><br>
+                  <ons-input id="post_user" type="text" placeholder="username" required></ons-input><br><br>
+                  <ons-input id="post_img" type="text" required value="https://cdn.pixabay.com/photo/2016/04/15/04/02/water-1330252_960_720.jpg" placeholder="img"></ons-input>
+                  <br> <br><ons-input id="post_subject" required type="text" placeholder="discription"></ons-input><br><br>
+                 <ons-button type="submit" value="addToDatabase"  onclick="addPostData()">Post</ons-button>
                 
-
-                <ons-button >Upload Pin</ons-button> </center>
+ </center>
            
               </ons-page>
         </template> 
@@ -669,18 +648,22 @@
 
  <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
  <script>
-   // Initialize Firebase
-   var config = {
-     apiKey: "AIzaSyBvbVfCeSUHx4Nag-D5tTMlRjKoh0lWzxU",
-     authDomain: "repairman-d41d3.firebaseapp.com",
-     databaseURL: "https://repairman-d41d3.firebaseio.com",
-     projectId: "repairman-d41d3",
-     storageBucket: "repairman-d41d3.appspot.com",
-     messagingSenderId: "375106619571"
-   };
-   firebase.initializeApp(config);
- </script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBvbVfCeSUHx4Nag-D5tTMlRjKoh0lWzxU",
+    authDomain: "repairman-d41d3.firebaseapp.com",
+    databaseURL: "https://repairman-d41d3.firebaseio.com",
+    projectId: "repairman-d41d3",
+    storageBucket: "repairman-d41d3.appspot.com",
+    messagingSenderId: "375106619571"
+  };
+  firebase.initializeApp(config);
+</script>
  <script type="text/javascript" src="cordova.js"></script>
  <script type="text/javascript" src="js/index.js"></script>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
 </body>
 </html>
